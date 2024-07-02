@@ -5,14 +5,10 @@ import (
 	"demo/apidemo/utils/authv3"
 	"encoding/json"
 	"fmt"
+	"github.com/xuri/excelize/v2"
+	"log"
 	"strings"
 )
-
-// 您的应用ID
-var appKey = "60f40320720e64fc"
-
-// 您的应用密钥
-var appSecret = "lZzRmRPIbAULfDD6mSSnDvvGCUNQnUaq"
 
 type Message struct {
 	Content string `json:"content"`
@@ -20,15 +16,57 @@ type Message struct {
 }
 
 func main() {
-	// 添加请求参数
-	questionStr := "1+1=?"
 
-	answerStr := getXPAnswer(questionStr)
+	// 打开一个已存在的Excel文件
+	f, err := excelize.OpenFile("./example.xlsx")
+	if err != nil {
+		log.Fatalf("Failed to open file: %v", err)
+	}
 
-	fmt.Println(answerStr)
+	// 假设数据从第二行开始（第一行是标题行）
+	// 遍历每一行
+	for row := 2; row <= 300; row++ {
+		// 读取第二列的值
+		cellValue, err := f.GetCellValue("Sheet1", fmt.Sprintf("B%d", row))
+		if err != nil || len(cellValue) <= 0 {
+			print(err)
+			break
+			// 如果读取错误，可能是到达文件末尾
+			log.Fatalf("Failed to get cell value: %v", err)
+		}
+
+		//// 对读取的值进行处理（这里是将字符串转换为大写）
+		//processedValue := strings.ToUpper(cellValue)
+
+		//添加请求参数
+		questionStr := cellValue
+
+		answerStr := getXPAnswer(questionStr)
+		fmt.Println(cellValue, answerStr)
+
+		// 将处理后的值写入到第三列
+		err = f.SetCellValue("Sheet1", fmt.Sprintf("C%d", row), answerStr)
+		if err != nil {
+			log.Fatalf("Failed to set cell value: %v", err)
+		}
+	}
+
+	// 保存修改后的文件
+	err = f.SaveAs("modified_example.xlsx")
+	if err != nil {
+		log.Fatalf("Failed to save file: %v", err)
+	}
+
+	fmt.Println("Excel file processed successfully.")
 }
 
 func getXPAnswer(questionStr string) string {
+	// 您的应用ID
+	var appKey = "60f40320720e64fc"
+
+	// 您的应用密钥
+	var appSecret = "lZzRmRPIbAULfDD6mSSnDvvGCUNQnUaq"
+
 	paramsMap := createRequestParams(questionStr)
 	header := map[string][]string{
 		"Content-Type": {"application/x-www-form-urlencoded"},
