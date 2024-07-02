@@ -43,7 +43,7 @@ func DoGetBySSE(url string, header map[string][]string, paramsMap map[string][]s
 
 func DoPostBySSE(url string, header map[string][]string, bodyMap map[string][]string) chan string {
 	client := &http.Client{
-		Timeout: time.Second * 3,
+		Timeout: time.Second * 300,
 	}
 	params := neturl.Values{}
 	for k, v := range bodyMap {
