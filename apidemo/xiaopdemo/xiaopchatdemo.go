@@ -25,11 +25,12 @@ func main() {
 
 	// 假设数据从第二行开始（第一行是标题行）
 	// 遍历每一行
-	for row := 2; row <= 300; row++ {
+	for row := 2; row <= 305; row++ {
 		// 读取第二列的值
 		cellValue, err := f.GetCellValue("Sheet1", fmt.Sprintf("B%d", row))
 		if err != nil || len(cellValue) <= 0 {
-			print(err)
+			println("-----------------")
+			println(err)
 			break
 			// 如果读取错误，可能是到达文件末尾
 			log.Fatalf("Failed to get cell value: %v", err)
@@ -62,10 +63,10 @@ func main() {
 
 func getXPAnswer(questionStr string) string {
 	// 您的应用ID
-	var appKey = "60f40320720e64fc"
+	var appKey = ""
 
 	// 您的应用密钥
-	var appSecret = "lZzRmRPIbAULfDD6mSSnDvvGCUNQnUaq"
+	var appSecret = ""
 
 	paramsMap := createRequestParams(questionStr)
 	header := map[string][]string{

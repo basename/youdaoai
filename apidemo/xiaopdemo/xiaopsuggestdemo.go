@@ -8,10 +8,10 @@ package main
 //)
 //
 //// 您的应用ID
-//var appKey = "60f40320720e64fc"
+//var appKey = ""
 //
 //// 您的应用密钥
-//var appSecret = "lZzRmRPIbAULfDD6mSSnDvvGCUNQnUaq"
+//var appSecret = ""
 //
 //func main() {
 //	// 添加请求参数
