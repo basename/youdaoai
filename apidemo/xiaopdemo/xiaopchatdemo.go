@@ -25,7 +25,7 @@ func main() {
 
 	// 假设数据从第二行开始（第一行是标题行）
 	// 遍历每一行
-	for row := 2; row <= 305; row++ {
+	for row := 1; row <= 20; row++ {
 		// 读取第二列的值
 		cellValue, err := f.GetCellValue("Sheet1", fmt.Sprintf("B%d", row))
 		if err != nil || len(cellValue) <= 0 {
@@ -43,7 +43,7 @@ func main() {
 		questionStr := cellValue
 
 		answerStr := getXPAnswer(questionStr)
-		fmt.Println(cellValue, answerStr)
+		//fmt.Println(cellValue, answerStr)
 
 		// 将处理后的值写入到第三列
 		err = f.SetCellValue("Sheet1", fmt.Sprintf("C%d", row), answerStr)
@@ -53,7 +53,7 @@ func main() {
 	}
 
 	// 保存修改后的文件
-	err = f.SaveAs("modified_example.xlsx")
+	err = f.SaveAs("example.xlsx")
 	if err != nil {
 		log.Fatalf("Failed to save file: %v", err)
 	}
